@@ -1,0 +1,101 @@
+// schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  username  String
+  addresses Address[]
+  orders    Order[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Address {
+  id         Int      @id @default(autoincrement())
+  userId     Int
+  street     String
+  city       String
+  state      String
+  postalCode String
+  country    String
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  orders     Order[]
+}
+
+model Category {
+  id          Int       @id @default(autoincrement())
+  name        String    @unique
+  description String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Product {
+  id          Int       @id @default(autoincrement())
+  name        String
+  description String?
+  price       Float
+  categoryId  Int
+  category    Category  @relation(fields: [categoryId], references: [id])
+  orderItems  OrderItem[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Order {
+  id                Int          @id @default(autoincrement())
+  userId            Int
+  totalAmount       Float
+  status            Status
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  shippingAddressId Int
+  user              User         @relation(fields: [userId], references: [id])
+  orderItems        OrderItem[]
+  transactions      Transaction[]
+  address           Address      @relation(fields: [shippingAddressId], references: [id])
+}
+
+model OrderItem {
+  id        Int      @id @default(autoincrement())
+  orderId   Int
+  productId Int
+  quantity  Int
+  price     Float
+  order     Order    @relation(fields: [orderId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Transaction {
+  id                Int      @id @default(autoincrement())
+  orderId           Int
+  paymentMethod     String
+  paymentStatus     String
+  transactionDate   DateTime @default(now())
+  transactionAmount Float
+  order             Order    @relation(fields: [orderId], references: [id])
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+enum Status {
+  PENDING
+  PROCESSING
+  COMPLETED
+  CANCELED
+}
