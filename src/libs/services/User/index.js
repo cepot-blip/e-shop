@@ -1,10 +1,10 @@
-import { UserModel } from "../../../models/Models";
+import { UsersModel } from "../../../models/Models";
 
 class UserService {
   #userModel;
 
-  constructor(UserModel) {
-    this.#userModel = UserModel;
+  constructor(UsersModel) {
+    this.#userModel = UsersModel;
   }
 
   async getUsers(skip, limit) {
@@ -22,17 +22,6 @@ class UserService {
             state: true,
             postalCode: true,
             country: true,
-          },
-        },
-        orders: {
-          selecet: {
-            id: true,
-            userId: true,
-            totalAmont: true,
-            status: true,
-            shippingAddresId: true,
-            orderItems: true,
-            transaction: true,
           },
         },
       },
@@ -85,6 +74,6 @@ class UserService {
   }
 }
 
-const userService = new UserService(UserModel);
+const userService = new UserService(UsersModel);
 
 export default userService;
