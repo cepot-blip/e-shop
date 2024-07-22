@@ -1,6 +1,7 @@
 import Joi from "joi";
 
 const payloadSchema = Joi.object({
+  id: Joi.number().required(),
   userId: Joi.number().required().messages({
     "any.required": "userId is required!",
   }),

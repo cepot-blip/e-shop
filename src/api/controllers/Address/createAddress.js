@@ -1,6 +1,6 @@
 import { request, response } from "express";
 import AddressValidation from "../../../validation/Address";
-import AddressService from "../../../libs/services/Address";
+import { addressService } from "../../../libs/services/Address";
 
 export const createAddress = async (req = request, res = response) => {
   try {
@@ -24,7 +24,7 @@ export const createAddress = async (req = request, res = response) => {
       country,
     };
 
-    await AddressService.createAddress;
+    await addressService.createAddress(data);
 
     return res.status(201).json({
       success: true,

@@ -11,25 +11,8 @@ class AddressService {
     await this.#AddressModel.create({ data });
   }
 
-  async getAddress(skip, limit) {
-    return await this.#AddressModel.findMany({
-      skip: skip,
-      take: limit,
-      orderBy: { id: "desc" },
-      include: {
-        orders: {
-          select: {
-            id: true,
-            userId: true,
-            totalAmount: true,
-            status: true,
-            shippingAddressId: true,
-            orderItems: true,
-            transaction: true,
-          },
-        },
-      },
-    });
+  async getAddress() {
+    return await this.#AddressModel.findMany();
   }
 
   async getAddressById(id) {
