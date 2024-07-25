@@ -7,8 +7,15 @@ class AddressService {
     this.#AddressModel = AddressModel;
   }
 
-  async createAddress(data) {
-    await this.#AddressModel.create({ data });
+  async createAddress(userId, street, city, state, postalCode, country) {
+    await this.#AddressModel.create({
+      userId,
+      street,
+      city,
+      state,
+      postalCode,
+      country,
+    });
   }
 
   async getAddress() {
@@ -18,19 +25,19 @@ class AddressService {
   async getAddressById(id) {
     return await this.#AddressModel.findUnique({
       where: { id },
-      include: {
-        orders: {
-          select: {
-            id: true,
-            userId: true,
-            totalAmount: true,
-            status: true,
-            shippingAddressId: true,
-            orderItems: true,
-            transaction: true,
-          },
-        },
-      },
+      // include: {
+      //   orders: {
+      //     select: {
+      //       id: true,
+      //       userId: true,
+      //       totalAmount: true,
+      //       status: true,
+      //       shippingAddressId: true,
+      //       orderItems: true,
+      //       transaction: true,
+      //     },
+      //   },
+      // },
     });
   }
 
