@@ -4,12 +4,13 @@ import userService from "../../../libs/services/User";
 import NotFoundError from "../../../utils/exceptions/NotFoundError";
 
 export const updateUsers = async (req = request, res = response) => {
-  const { id, username, email } = await req.body;
+  const { id } = req.params;
+  const { username, email } = await req.body;
 
   UserValidation.validateUpdateUser({
     id,
-    username,
     email,
+    username,
   });
 
   const checkUniqueId = await userService.getUserById(parseInt(id));
@@ -18,7 +19,9 @@ export const updateUsers = async (req = request, res = response) => {
     throw new NotFoundError("User Not Found!");
   }
 
-  await userService.updateUserById(id, username, email);
+  const data = { email, username };
+
+  await userService.updateUserById(parseInt(id), email, username);
 
   res.status(200).json({
     success: true,

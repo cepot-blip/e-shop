@@ -60,38 +60,3 @@ export const loginUsers = async (req = request, res = response) => {
     });
   }
 };
-
-export const decryptToken = (hashToken) => {
-  try {
-    const bytes = CryptoJS.AES.decrypt(hashToken, process.env.API_SECRET);
-    const originalToken = bytes.toString(CryptoJS.enc.Utf32);
-    return originalToken;
-  } catch (error) {
-    throw new Error("Failed to decrypt token: " + error.message);
-  }
-};
-
-export const getOriginalToken = async (req = request, res = response) => {
-  try {
-    const { hashToken } = req.body;
-
-    if (!hashToken) {
-      return res.status(400).json({
-        success: false,
-        message: "Hash token is required",
-      });
-    }
-
-    const originalToken = decryptToken(hashToken);
-
-    res.status(200).json({
-      success: true,
-      token: originalToken,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};

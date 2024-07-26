@@ -33,11 +33,11 @@ const changePasswordSchema = Joi.object({
   email: Joi.string()
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net"] } })
     .required(),
-  oldPassword: Joi.string()
+  oldPass: Joi.string()
     .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
     .min(8)
     .required(),
-  newPassword: Joi.string()
+  newPass: Joi.string()
     .pattern(new RegExp("^[a-zA-Z0-9]{3,30}$"))
     .min(8)
     .required(),
