@@ -9,9 +9,15 @@ const salt = bcrypt.genSaltSync(10);
 
 export const changePasswordUsers = async (req = request, res = response) => {
   const { email, oldPass, newPass } = await req.body;
-  UserValidation.validateChangePassword({ email, oldPass, newPass });
 
-  const findUsers = await userService.getUserByEmail(email);
+  const where = {};
+
+  if (email) {
+    UserValidation.validateChangePassword({ email, oldPass, newPass });
+    where.email = email;
+  }
+
+  const findUsers = await userService.getUserByCredentials(where);
 
   if (!findUsers) {
     throw new NotFoundError("email not found!");
@@ -20,11 +26,11 @@ export const changePasswordUsers = async (req = request, res = response) => {
   const compareOldPass = await bcrypt.compareSync(oldPass, findUsers.password);
 
   if (!compareOldPass) {
-    throw new ClientError("incorect password!");
+    throw new ClientError("Incorect password!");
   }
 
   const hashNewPassword = await bcrypt.hashSync(newPass, salt);
-  await userService.changePassword(email, hashNewPassword);
+  await userService.changePassword(where, hashNewPassword);
 
   res.status(200).json({
     success: true,
