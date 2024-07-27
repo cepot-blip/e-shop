@@ -1,8 +1,8 @@
 import express from "express";
 import rateLimit from "express-rate-limit";
 import { catchAsync } from "../../../utils";
-import { createUsers } from "../../controllers/Users/createUsers";
 import { loginUsers } from "../../controllers/Users/loginUsers";
+import { createUsers } from "../../controllers/Users/createUsers";
 import { getUsers } from "../../controllers/Users/getUsers";
 import { updateUsers } from "../../controllers/Users/updateUsers";
 import { deleteUsers } from "../../controllers/Users/deleteUsers";

@@ -1,10 +1,9 @@
 import { request, response } from "express";
 import jwt from "jsonwebtoken";
 import env from "dotenv";
-import bcryptjs from "bcryptjs";
-import UserValidation from "../../../validation/Users";
 import userService from "../../../libs/services/User";
-import InvarianError from "../../../utils/exceptions/InvariantError";
+import UserValidation from "../../../validation/Users";
+import bcryptjs from "bcryptjs";
 
 env.config();
 
@@ -19,13 +18,7 @@ export const createUsers = async (req = request, res = response) => {
     password,
   });
 
-  const checkUniqueEmail = await userService.getUserByEmail(email);
-
-  if (checkUniqueEmail) {
-    throw new InvarianError("Email Already Existed!");
-  }
-
-  const createUsers = await userService.createUser(
+  const createUser = await userService.createUsers(
     email,
     bcryptjs.hashSync(password, salt),
     username
@@ -34,8 +27,8 @@ export const createUsers = async (req = request, res = response) => {
   const token = jwt.sign(
     {
       app_name: process.env.APP_NAME,
-      email: createUsers.email,
-      username: createUsers.username,
+      email: createUser.email,
+      username: createUser.username,
     },
     process.env.API_SECRET
   );
