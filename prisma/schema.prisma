@@ -36,8 +36,7 @@ model Address {
 
 model Category {
   id          Int       @id @default(autoincrement())
-  name        String    @unique
-  description String?
+  name        Name      @unique
   products    Product[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
@@ -98,4 +97,16 @@ enum Status {
   PROCESSING
   COMPLETED
   CANCELED
+}
+
+enum Name {
+  Elektronik
+  Aksesoris
+  Kecantikan
+  Olahraga
+  Fashion
+  Pakaian
+  Otomotif
+  Perlengkapan
+  Peralatan
 }

@@ -31,4 +31,4 @@ const addressSchema = Joi.object({
   }),
 });
 
-export default addressSchema;
+export { addressSchema };
