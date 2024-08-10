@@ -8,8 +8,6 @@ export const updateProduct = async (req = request, res = response) => {
 
   const checkUniqueId = await productService.getProductById(parseInt(id));
 
-  // const checkUniqueCategoryId = await
-
   if (!checkUniqueId) {
     throw new NotFoundError("Id not found!");
   }

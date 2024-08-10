@@ -10,10 +10,18 @@ class ProductService {
     this.#productModel = ProductModel;
   }
 
-  async createProduct(data) {
+  async createProduct(name, description, price, categoryId) {
     try {
-      return await this.#productModel.create({ data });
+      return await this.#productModel.create({
+        data: {
+          name,
+          description,
+          price,
+          categoryId,
+        },
+      });
     } catch (error) {
+      console.error("Error creating product:", error);
       throw new InvariantError("Failed to create product. Please try again!");
     }
   }

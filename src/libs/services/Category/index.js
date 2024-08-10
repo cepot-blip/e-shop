@@ -20,7 +20,12 @@ class CategoryService {
 
   async getCategory() {
     try {
-      return await this.#categoryModels.findMany();
+      return await this.#categoryModels.findMany({
+        orderBy: { id: "desc" },
+        include: {
+          products: true,
+        },
+      });
     } catch (error) {
       throw new InvariantError(
         "Failed to retrieve categories. Please try again!"

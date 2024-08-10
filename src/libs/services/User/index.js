@@ -34,7 +34,6 @@ class UserService {
           address: {
             select: {
               id: true,
-              userId: true,
               street: true,
               city: true,
               state: true,
