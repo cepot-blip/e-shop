@@ -13,7 +13,7 @@ export const createAddress = async (req = request, res = response) => {
       postalCode,
       country
     );
-    res.status(201).json({
+    res.status(200).json({
       success: true,
       message: "Address created successfully!",
     });
