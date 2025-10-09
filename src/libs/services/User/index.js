@@ -22,9 +22,9 @@ class UserService {
     } catch (error) {
       throw new InvariantError("Failed to create user. Please try again.");
     }
-  }
+  } 
 
-  async getUsers(skip, limit) {
+   async getUsers(skip, limit) {
     try {
       return await this.#userModel.findMany({
         skip,
